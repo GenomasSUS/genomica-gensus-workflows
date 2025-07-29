@@ -1,6 +1,10 @@
 ## Processamento de Novas Análises DRAGEN
 
-Este módulo recebe um lote de amostras em formato TSV, envia cada análise ao pipeline **DRAGEN / Nextflow** na ICA, e gera artefatos para rastreabilidade. O diagrama abaixo resume as etapas.
+Este script automatiza a submissão de amostras de genoma completo ao DRAGEN, a ferramenta da Illumina que realiza alinhamento, chamada de variantes (SNVs/INDELs), detecção de SVs/CNVs e métricas de QC em poucas horas por amostra. A ferramenta trabalha sobre leituras FASTQ brutas e produz arquivos VCF/CRAM de grau clínico.
+
+A rotina lê um TSV de lote com todas as amostras e metadados (Run Name, CA, IDs de FASTQ, pasta de saída etc.), converte cada linha em um payload JSON compatível com o endpoint POST /analysis:nextflow da Illumina Connected Analytics (ICA) e dispara execuções DRAGEN/Nextflow na nuvem. Durante o processo ela monitora cada submissão, registra o ID da análise criada e gera arquivos de rastreabilidade (TSV, logs, flag‑files). O diagrama abaixo resume as etapas.
+
+
 
 <img width="3718" height="2168" alt="dragen_submission" src="https://github.com/user-attachments/assets/962ce42a-972b-4dca-a8bb-ce3e9b58d0e4" />
 
