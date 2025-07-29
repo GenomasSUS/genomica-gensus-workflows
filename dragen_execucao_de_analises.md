@@ -1,8 +1,9 @@
 ## Processamento de Novas Análises DRAGEN
 
-Este módulo recebe um lote de amostras em formato TSV, envia cada análise ao pipeline **DRAGEN / Nextflow** na ICA, e gera artefatos para rastreabilidade. O diagrama abaixo (embedado no início do documento) resume as etapas.
+Este módulo recebe um lote de amostras em formato TSV, envia cada análise ao pipeline **DRAGEN / Nextflow** na ICA, e gera artefatos para rastreabilidade. O diagrama abaixo resume as etapas.
 
-![Fluxograma de Submissão DRAGEN](./Figuras/dragen_submission.png)
+<img width="3718" height="2168" alt="dragen_submission" src="https://github.com/user-attachments/assets/962ce42a-972b-4dca-a8bb-ce3e9b58d0e4" />
+
 
 ---
 
@@ -11,7 +12,7 @@ Este módulo recebe um lote de amostras em formato TSV, envia cada análise ao p
 | Flag / Arquivo | Descrição                                                                                                                                      |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `-k API_KEY`   | Chave de acesso à ICA (obrigatório)                                                                                                            |
-| `-i INPUT_TSV` | TSV validado contendo, por linha, os campos:<br>`RunName`, `GensusCAId`, `GensusCA`, `GensusSample`, `FastqId`, `FastqListId`, `BatchFolderId` |
+| `-i INPUT_TSV` | TSV validado, salvo em input_qc/unprocessed/, contendo, por linha, os campos:<br>`RunName`, `GensusCAId`, `GensusCA`, `GensusSample`, `FastqId`, `FastqListId`, `BatchFolderId` |
 | `--dry-run`    | Opcional. Prepara o payload mas **não** envia para a API                                                                                       |
 | `--verbose`    | Opcional. Exibe logs detalhados                                                                                                                |
 
@@ -20,7 +21,7 @@ Este módulo recebe um lote de amostras em formato TSV, envia cada análise ao p
 ```bash
 Rscript src/run_dragen_analyses.R \
   -k $ICA_API_KEY \
-  -i path/to/batch.tsv \
+  -i input_qc/unprocessed/batch.tsv \
   --verbose    # opcional
   # --dry-run  # simulação, se necessário
 ```
