@@ -31,7 +31,12 @@ O fluxo de trabalho do script está representado no flowchart abaixo.
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/647a38d6-ae1c-4dec-894b-015be12409a0" />
 
-### Verifica de Inconsistências
+### Verificar de Inconsistências
+
+Após catalogar as amostras e corridas, podemos verificar identificar inconsistências de nomenclatura e as corridas defasadas que podem afetar a submissão adequadas das amostras para processamento.
+O comando `check-basecall` busca por problemas de identificação das corridas/chamada de bases e aponta chamadas de base defasadas.
+E `check-sample` identifica inconsistências de identificação de amostras, identificadores duplicados, e conflitos com o nome da corrida.
+No exemplo abaixo, executamos ambos os comando para buscar problemas e inconsistências.
 
 ```bash
 ## Reporta inconstências da corrida: nome desformatado e defasada
@@ -43,10 +48,19 @@ python3 gensus_ica.py -K {APIKEY} check-sample gensus-ica.sample-data.{flag de d
 
 ## Prepara Lote de Amostra para DRAGEN
 
+Após verificar inconsistências, podemos selecionar um lote para preparar a submissão DRAGEN.
+O comando `list-batch` identifica lotes de amostras com pelo menos duas corridas disponíveis, assumidas como _shallow_ e _full_.
+Lotes de amostras são identificados baseado no id das corridas (e.g. GS-RP-S032_GS-RP-F032).
+Exemplo abaixo lista todos os lotes prontos para submissão, o número de amostras contidas, e o número de amostra com estimativa de cobertura igual ou acima de 5x, 28x, e 30x.
+
 ```bash
 ## Catalogar amostras no ICA
 python3 gensus_ica.py -K {APIKEY} list-batch gensus-ica.gensus-sample-data.{flag de data}.parquet
 ```
+
+A submissão do lote selecionado pode ser preparada utilizando o commando `prep-analysis` conforme o exemplo abaixo.
+O comando cria uma pasta no ICA dos centros âncoras responsáveis pelas amostras inclusas, submete `.fastqlist` para cada amostra e linka os arquivos `FASTQ` para execução do DRAGEN.
+Ao final, o comando gera uma tabela com os dados necessários para execução das análises DRAGEN.
 
 ```bash
 ## Catalogar amostras no ICA
